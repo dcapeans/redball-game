@@ -22,15 +22,6 @@ let score = 0;
 let friends = [];
 let enemies = [];
 
-let enemy = {
-    x: 0,
-    y: 0,
-    radius: 30,
-    color: "blue",
-    speedX: 10,
-    speedY: 10,
-};
-
 function drawScore() {
     scoreContainer.textContent = `${score}`;
 }
@@ -204,8 +195,10 @@ function checkFriendExitScreen() {
 }
 
 function increaseEnemySpeed() {
-    enemy.speedX *= 1.001;
-    enemy.speedY *= 1.001;
+    enemies.forEach(enemy => {
+        enemy.speedX *= 1.0005;
+        enemy.speedY *= 1.0005;
+    })
 }
 
 function endGame() {
@@ -225,12 +218,16 @@ function startGame() {
     clearInterval(scoreIntervalId);
     intervalId = setInterval(gameLoop, 1000 / 60);
     scoreIntervalId = setInterval(() => score++, 1000)
-    console.log(friends)
-    console.log(enemies)
 }
 
 function restart(){
-
+    if(gameOver){
+        friends = []
+        enemies = []
+        score = 0
+        gameOver = false
+        startGame()
+    }
 }
 
 function gameLoop() {
